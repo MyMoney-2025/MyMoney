@@ -1,0 +1,9 @@
+{
+  "name": "mymoney",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "start": "echo 'Starte client und server manuell in den jeweiligen Ordnern.'"
+  }
+}
