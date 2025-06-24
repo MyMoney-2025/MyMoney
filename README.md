@@ -1,32 +1,30 @@
+# 💸 MyMoney
 
-<<<<<<< HEAD
-=======
----
+**MyMoney** ist eine moderne, modulare Webanwendung zur **persönlichen Finanzverwaltung**.  
+Mit MyMoney kannst du deine **Einnahmen und Ausgaben** strukturieren, **Kategorien verwalten**, **wiederkehrende Transaktionen** markieren und Sparpotenziale erkennen.
 
-## 🚀 Features
-
-- 📌 Einnahmen und Ausgaben erfassen
-- 🎨 Kategorisierung mit Farblogik
-- 🔁 Wiederkehrende Ausgaben markieren
-- 💡 Sparpotenzial sichtbar machen
-- 👤 Benutzerprofile mit späterer Erweiterung (z. B. Login)
-- 📊 Vorbereitung für Statistiken & Visualisierung
+Ziel ist es, ein benutzerfreundliches und visuell ansprechendes Tool zu bieten, das den Überblick über die eigenen Finanzen erleichtert – sowohl am Desktop als auch mobil.
 
 ---
 
-## ⚙️ Installation
+## 🔗 GitHub-Repository
 
-### Voraussetzungen
-
-- Node.js (v18+ empfohlen)
-- MySQL oder MariaDB
-- npm (oder yarn/pnpm)
+📁 [https://github.com/MyMoney-2025/MyMoney](https://github.com/MyMoney-2025/MyMoney)
 
 ---
 
-### 1. Projekt klonen
+## ✨ Features
 
-```bash
-git clone https://github.com/dein-benutzername/mymoney.git
-cd mymoney
->>>>>>> 947c1ef (Initial commit)
+- ✅ Einnahmen und Ausgaben erfassen
+- 🎨 Farbliche Kategorisierung (z. B. grün für Einnahmen, rot für Ausgaben)
+- 🔁 Wiederkehrende Transaktionen markieren
+- 💡 Sparpotenziale hervorheben (z. B. Freizeit > 30 %)
+- 📅 Filter nach Zeitraum, Kategorie, Typ
+- 📊 Geplant: Statistiken, Diagramme & CSV-Export
+- 🔐 Geplant: Login, Benutzerrollen und Profilverwaltung
+- 🌍 Bereit für Internationalisierung (mehrsprachige Oberfläche)
+
+---
+
+## 📁 Projektstruktur
+
