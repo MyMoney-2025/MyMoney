@@ -1,30 +1,35 @@
-# 💸 MyMoney
+# 💰 MyMoney – Das Frontend der Finanzverwaltungs-App
 
-**MyMoney** ist eine moderne, modulare Webanwendung zur **persönlichen Finanzverwaltung**.  
-Mit MyMoney kannst du deine **Einnahmen und Ausgaben** strukturieren, **Kategorien verwalten**, **wiederkehrende Transaktionen** markieren und Sparpotenziale erkennen.
+**MyMoney** ist eine moderne Webanwendung, mit der Nutzer ihre Einnahmen und Ausgaben übersichtlich verwalten können. Es unterstützt Kategorien, wiederkehrende Ausgaben, Einsparpotenziale und Nutzerprofile.
 
-Ziel ist es, ein benutzerfreundliches und visuell ansprechendes Tool zu bieten, das den Überblick über die eigenen Finanzen erleichtert – sowohl am Desktop als auch mobil.
-
----
-
-## 🔗 GitHub-Repository
-
-📁 [https://github.com/MyMoney-2025/MyMoney](https://github.com/MyMoney-2025/MyMoney)
+Das Frontend basiert auf **React**, **Vite** und **TailwindCSS**.  
+Optional kann es in eine CI/CD-Pipeline über **Jenkins** oder **GitHub Actions** eingebunden werden.
 
 ---
 
-## ✨ Features
+## 🚀 Features
 
-- ✅ Einnahmen und Ausgaben erfassen
-- 🎨 Farbliche Kategorisierung (z. B. grün für Einnahmen, rot für Ausgaben)
-- 🔁 Wiederkehrende Transaktionen markieren
-- 💡 Sparpotenziale hervorheben (z. B. Freizeit > 30 %)
-- 📅 Filter nach Zeitraum, Kategorie, Typ
-- 📊 Geplant: Statistiken, Diagramme & CSV-Export
-- 🔐 Geplant: Login, Benutzerrollen und Profilverwaltung
-- 🌍 Bereit für Internationalisierung (mehrsprachige Oberfläche)
+- Einnahmen- und Ausgabenverwaltung
+- Kategorien und Farben
+- Wiederkehrende Ausgaben markieren
+- Einsparvorschläge
+- Nutzerprofile mit Avatar
+- Navigation mit Links zu Finanztipps und Krypto-Apps
+- Datenschutz, AGB, Impressum im Footer
 
 ---
 
-## 📁 Projektstruktur
+## 📁 Projektstruktur (Auszug)
+
+```plaintext
+/mymoney
+├── client/            # React Frontend
+│   ├── src/
+│   ├── index.html
+│   └── package.json
+├── server/            # Express Backend (getrennt)
+├── Jenkinsfile        # Für CI mit Jenkins
+├── .env               # Umgebungsvariablen (nicht committen!)
+└── README.md
+
 
