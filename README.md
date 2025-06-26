@@ -19,6 +19,31 @@ Optional kann es in eine CI/CD-Pipeline über **Jenkins** oder **GitHub Actions*
 
 ---
 
+## 🎯 Sprint 1 – Planung und Umsetzung
+
+🧠 **Sprint Goal:**  
+> *„Ein funktionsfähiges Grundgerüst mit Nutzerregistrierung, Login und persistenter Datenspeicherung aufbauen.“*
+
+Das Ziel ist es, die technische Basis zu schaffen, damit ein Nutzer sich registrieren, einloggen und seine Daten sicher speichern kann. Dazu zählen sowohl Frontend-Komponenten als auch das Backend inkl. Datenbankanbindung.
+
+📅 **Sprintzeitraum:** 1. Juli – 3. Juli  
+📍 **Jira Sprint Board:**  
+🔗 [Zum Sprint-Backlog in Jira](https://allerchecker.atlassian.net/jira/software/projects/MYM/boards/1)
+
+### 📌 Sprint Backlog
+
+**Epic: Technische Grundlage / Setup**
+
+| Vorgang-ID | Aufgabe                                                                 |
+|------------|-------------------------------------------------------------------------|
+| MYM-16     | Ausarbeiten der technischen Voraussetzungen zur Installation           |
+| MYM-12     | Frontend Grundstruktur                                                  |
+| MYM-15     | Backend API                                                             |
+| MYM-14     | MariaDB Setup                                                           |
+| MYM-13     | Authentifizierung mit JWT                                               |
+
+---
+
 ## 📁 Projektstruktur (Auszug)
 
 ```plaintext
@@ -28,6 +53,7 @@ Optional kann es in eine CI/CD-Pipeline über **Jenkins** oder **GitHub Actions*
 │   ├── index.html
 │   └── package.json
 ├── server/            # Express Backend (getrennt)
+├── db/                # Datenbankstruktur und SQL-Dateien
 ├── Jenkinsfile        # Für CI mit Jenkins
 ├── .env               # Umgebungsvariablen (nicht committen!)
 └── README.md
