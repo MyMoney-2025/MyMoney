@@ -58,4 +58,21 @@ Das Ziel ist es, die technische Basis zu schaffen, damit ein Nutzer sich registr
 ├── .env               # Umgebungsvariablen (nicht committen!)
 └── README.md
 
+## Projekt Cockpit
+
+1 - Github Repository: https://github.com/MyMoney-2025/MyMoney.git
+
+2 - Projektmanagement-Board: https://allerchecker.atlassian.net/jira/software/projects/MYM/boards/2
+
+3 - Team Meeting Raum: https://meet.google.com/dfy-iwhg-igm
+
+4 - Daily Scrum: 10:00Uhr 
+    Der Sinn des Daily Scrum:
+    Das Daily Scrum ist ein 15-minütiges Event für die Entwickler des Scrum Teams. Der Zweck des Daily Scrums ist es, den Fortschritt in Richtung des Sprint-Ziels zu überprüfen und den Sprint-Backlog bei Bedarf anzupassen, um den Arbeitsplan für den nächsten Arbeitstag abzustimmen. 
+    
+    Da ich von nun an im Projekt alleine arbeite, sind die folgenden Personen die zentralen Teilnehmer des Daily Scrum: 
+    1) Affan Ahmad; Product Owner
+    2) Marco Lindner; Class Teacher
+
+    Es ist keine Status-Runde für den Product Owner oder Scrum Master, sondern ein kurzes Planungsmeeting für das Team selbst, um die Zusammenarbeit und Leistung zu optimieren und eventuelle Hindernisse (Impediments) frühzeitig zu identifizieren. 
 
