@@ -1,0 +1,62 @@
+pipeline {
+  agent any
+
+  environment {
+    NODE_ENV = 'production'
+  }
+
+  options {
+    skipStagesAfterUnstable()
+  }
+
+  stages {
+    stage('📥 Checkout Code') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('📦 Install Dependencies') {
+      steps {
+        dir('client') {
+          sh 'npm ci'
+        }
+      }
+    }
+
+    stage('🛠 Build Frontend') {
+      steps {
+        dir('client') {
+          sh 'npm run build'
+        }
+      }
+    }
+
+    stage('🧪 Optional: Lint') {
+      steps {
+        dir('client') {
+          sh 'npm run lint || true'  // Fehler blockieren Build nicht
+        }
+      }
+    }
+
+    stage('🚀 Publish (optional)') {
+      when {
+        expression { return false } // Aktuell deaktiviert
+      }
+      steps {
+        echo 'Deploying to production...'
+        // z. B. scp, rsync, GitHub Pages, Firebase CLI, etc.
+      }
+    }
+  }
+
+  post {
+    success {
+      echo '✅ Build erfolgreich abgeschlossen!'
+    }
+    failure {
+      echo '❌ Build fehlgeschlagen!'
+    }
+  }
+}
