@@ -2,8 +2,16 @@
   "name": "mymoney",
   "version": "1.0.0",
   "private": true,
-  "workspaces": ["client", "server"],
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
     "start": "echo 'Starte client und server manuell in den jeweiligen Ordnern.'"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "@vitejs/plugin-react": "^4.6.0",
+    "tailwindcss": "^4.1.11"
   }
 }
