@@ -43,6 +43,33 @@ Das Ziel ist es, die technische Basis zu schaffen, damit ein Nutzer sich registr
 | MYM-13     | Authentifizierung mit JWT                                               |
 
 ---
+## 🎯 Sprint 2 – Planung und Umsetzung
+
+🧠 **Sprint Goal:**  
+> *„Ein funktionsfähiges Grundgerüst mit Nutzerregistrierung, Login und persistenter Datenspeicherung aufbauen.“*
+
+Das Ziel ist es, die technische Basis zu schaffen, damit ein Nutzer sich registrieren, einloggen und seine Daten sicher speichern kann. Dazu zählen sowohl Frontend-Komponenten als auch das Backend inkl. Datenbankanbindung.
+
+📅 **Sprintzeitraum:** 7. Juli – 14. Juli  
+📍 **Jira Sprint Board:**  
+🔗 [Zum Sprint-Backlog in Jira](https://allerchecker.atlassian.net/jira/software/projects/MYM/boards/2/backlog)
+
+### 📌 Sprint Backlog
+
+**Epic: Technische Grundlagen / Setup**
+
+| Vorgang-ID | Aufgabe                                                                 |
+|------------|-------------------------------------------------------------------------|
+| MYM-16     | Ausarbeiten der technischen Voraussetzungen zur Installation            |
+| MYM-15     | Backend API                                                             |                        
+| MYM-8      | Registrierung von Benutzern                                             |
+| MYM-9      | Login & Logout                                                          |
+| MYM-11     | Profilverwaltung                                                        |
+
+
+
+
+
 
 ## 📁 Projektstruktur (Auszug)
 

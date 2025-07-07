@@ -7,7 +7,7 @@ Heutige Hauptaufgabe(n):
 
 Fortschritt & Ergebnisse: 
 
-Register Button hinzugefügt
+Registrieren Button hinzugefügt neben Login.
 
 Herausforderungen & Blockaden: 
 
