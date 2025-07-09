@@ -1,9 +1,11 @@
 
-Tag 7 - 08.07.2025:
+Tag 8 - 09.07.2025:
 
 Heutige Hauptaufgabe(n):
  
-- An folgenden Sprints heute gearbeitet:  MYM-8, MYM-9
+- An folgenden Sprints heute gearbeitet:  MYM-9
+- Statt Registrierung von Benutzern möchte ich jetzt Login mittels Goggle Account 
+  implementieren
 
 Fortschritt & Ergebnisse: 
 
@@ -16,8 +18,7 @@ Herausforderungen & Blockaden:
 
 Was ich heute gelernt habe: 
 
-- Routen müssen definiert werden für die Pages.
 
 Plan für morgen: (Was ist der nächste logische Schritt?)
 
-- Formulare/Pages für Login, Registrierung erstellen, verfeineren.
+- Login Funktion implementieren
