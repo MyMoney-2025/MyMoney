@@ -1,37 +1,33 @@
-// Beispiel: src/pages/Login.jsx
-import { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login({ onLogin }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [msg, setMsg] = useState('');
+export default function Login() {
+  const navigate = useNavigate();
 
-  async function handleLogin(e) {
-    e.preventDefault();
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
-    const data = await res.json();
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-      setMsg('Login erfolgreich!');
-      onLogin && onLogin(data.token);
-    } else {
-      setMsg(data.error);
-    }
-  }
+  const handleGoogleLogin = () => {
+    // Weiterleitung zum Backend für Google OAuth
+    window.location.href = '/api/auth/google';
+  };
+
+  // Optional: Wenn du nach erfolgreichem Login vom Backend auf /dashboard weiterleitest,
+  // kannst du hier einen Effekt einbauen, um den Usernamen aus dem Token zu holen.
 
   return (
-    <form onSubmit={handleLogin} className="space-y-4">
-      <input className="border p-2 w-full" placeholder="Benutzername" value={username} onChange={e => setUsername(e.target.value)} />
-      <input className="border p-2 w-full" type="password" placeholder="Passwort" value={password} onChange={e => setPassword(e.target.value)} />
-      <button className="bg-green-600 text-white px-4 py-2 rounded" type="submit">Login</button>
-      <div>{msg}</div>
-    </form>
+    <div className="flex flex-col items-center justify-center min-h-[60vh]">
+      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md flex flex-col items-center">
+        <h2 className="text-2xl font-bold text-green-700 mb-6">Login mit Google</h2>
+        <button
+          onClick={handleGoogleLogin}
+          className="flex items-center gap-2 text-gray-700 hover:text-green-600 transition-colors border border-green-600 rounded px-4 py-2 hover:bg-green-50"
+        >
+          <img
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            alt="Google"
+            className="w-6 h-6"
+          />
+          Login mit Googlemail
+        </button>
+      </div>
+    </div>
   );
 }
-
-// Logout Beispiel (z.B. Button):
-// localStorage.removeItem('token');

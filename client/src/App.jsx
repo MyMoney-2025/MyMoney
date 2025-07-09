@@ -1,5 +1,7 @@
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -12,9 +14,15 @@ function App() {
             Willkommen bei <span className="text-green-500">MyMoney</span>
           </h1>
           <p className="text-gray-600 text-lg text-center mb-4">
-            Behalte deine Finanzen im Blick – mit Übersicht, Kontrolle und Tipps zum Sparen.
+            Behalte deine Finanzen im Blick – mit Übersicht, Kontrolle und Tipps
+            zum Sparen.
           </p>
           {/* Hier kann später das Dashboard oder Routing hin */}
+          <Routes>
+            {/* ...weitere Routen... */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
         </div>
       </main>
 
@@ -24,4 +32,3 @@ function App() {
 }
 
 export default App;
-
