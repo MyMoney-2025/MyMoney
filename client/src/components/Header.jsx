@@ -3,10 +3,9 @@ import React from 'react';
 
 
 function Header() {
-  // Handler für Google Login (Dummy-Implementierung)
-  const handleGoogleLogin = () => {
-    // Hier würdest du z.B. ein OAuth-Login mit Google einleiten
-    window.location.href = '/api/auth/google'; // Beispiel-Route für Backend-Redirect
+  // Handler für GitHub Login
+  const handleGithubLogin = () => {
+    window.location.href = '/api/auth/github'; // GitHub OAuth-Route im Backend
   };
 
   return (
@@ -23,15 +22,15 @@ function Header() {
       {/* Rechts: Login/Profile */}
       <div className="flex items-center space-x-4">
         <button
-          onClick={handleGoogleLogin}
+          onClick={handleGithubLogin}
           className="flex items-center gap-2 text-gray-700 hover:text-green-600 transition-colors border border-green-600 rounded px-3 py-1 ml-2 hover:bg-green-50"
         >
           <img
-            src="https://www.svgrepo.com/show/475656/google-color.svg"
-            alt="Google"
+            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+            alt="GitHub"
             className="w-5 h-5"
           />
-          Login mit Googlemail
+          Login mit GitHub
         </button>
         <button className="relative">
           <img

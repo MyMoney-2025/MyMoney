@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   const navigate = useNavigate();
 
-  const handleGoogleLogin = () => {
-    // Weiterleitung zum Backend für Google OAuth
-    window.location.href = "/api/auth/google";
+  // ...existing code...
+  const handleGithubLogin = () => {
+    // Weiterleitung zum Backend für GitHub OAuth
+    window.location.href = "/api/auth/github";
   };
+  // ...existing code...
 
   // Optional: Wenn du nach erfolgreichem Login vom Backend auf /dashboard weiterleitest,
   // kannst du hier einen Effekt einbauen, um den Usernamen aus dem Token zu holen.
@@ -19,7 +21,7 @@ export default function Login() {
           Login mit Google
         </h2>
         <button
-          onClick={() => (window.location.href = "/api/auth/github")}
+          onClick={handleGithubLogin}
           className="flex items-center gap-2 text-gray-700 hover:text-green-600 transition-colors border border-green-600 rounded px-4 py-2 hover:bg-green-50"
         >
           <img
