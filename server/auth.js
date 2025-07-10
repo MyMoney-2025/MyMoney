@@ -2,6 +2,11 @@ import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
+import dotenv from 'dotenv';
+
+dotenv.config();
+import { Router } from 'express';
+export default Router();
 
 const app = express();
 
@@ -10,8 +15,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new GitHubStrategy({
-  clientID: 'DEINE_CLIENT_ID',
-  clientSecret: 'DEIN_CLIENT_SECRET',
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
   callbackURL: '/api/auth/github/callback'
 }, (accessToken, refreshToken, profile, done) => {
   // Hier kannst du den User in der DB speichern oder suchen
@@ -89,7 +94,7 @@ app.listen(3001, () => console.log('Server läuft auf Port 3001'));
 //   res.json({ success: true });
 // });
 
-// const PORT = process.env.PORT || 3001;
-// app.listen(PORT, () => {
-//   console.log(`API läuft auf http://localhost:${PORT}`);
-// });
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`API läuft auf http://localhost:${PORT}`);
+});
