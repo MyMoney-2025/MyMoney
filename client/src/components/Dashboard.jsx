@@ -4,7 +4,7 @@ export default function Dashboard() {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
-    // Hole Userdaten vom Backend (z.B. /api/me), das den Google-Username zurückgibt
+    // Hole Userdaten vom Backend (z.B. /api/me), das den Github-Username zurückgibt
     async function fetchUser() {
       const res = await fetch('/api/me', { credentials: 'include' });
       if (res.ok) {

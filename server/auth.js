@@ -1,10 +1,12 @@
+dotenv.config();
+import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
-import dotenv from 'dotenv';
 
-dotenv.config();
+
+
 import { Router } from 'express';
 export default Router();
 
@@ -46,7 +48,7 @@ app.get('/api/me', (req, res) => {
   }
 });
 
-app.listen(3001, () => console.log('Server läuft auf Port 3001'));
+app.listen(3000, () => console.log('Server läuft auf Port 3000'));
 
 
 
