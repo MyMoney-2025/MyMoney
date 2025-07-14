@@ -1,11 +1,19 @@
 import 'dotenv/config';
 import express from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+import { body, validationResult } from 'express-validator';
+import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 
 const app = express();
 
+// Middleware
+app.use(express.json());
+app.use(cors());
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dein_geheimes_secret',
   resave: false,
@@ -13,6 +21,174 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// MongoDB Verbindung
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/finanzapp');
+
+// User Schema
+const userSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  name: { type: String, required: true },
+  theme: { type: String, default: 'light' },
+  monthlyBudget: { type: Number, default: 0 },
+  expenses: [{
+    category: String,
+    amount: Number,
+    date: Date
+  }]
+});
+
+const User = mongoose.model('User', userSchema);
+
+// Validierung für Registrierung
+const validateRegister = [
+  body('email').isEmail().normalizeEmail(),
+  body('password').isLength({ min: 6 }),
+  body('name').notEmpty().trim()
+];
+
+// Registrierung
+app.post('/api/register', validateRegister, async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password, name } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    const user = new User({
+      email,
+      password: hashedPassword,
+      name
+    });
+
+    await user.save();
+    res.status(201).json({ message: 'Registrierung erfolgreich' });
+  } catch (error) {
+    if (error.code === 11000) {
+      res.status(400).json({ error: 'Email bereits registriert' });
+    } else {
+      res.status(500).json({ error: 'Server Fehler' });
+    }
+  }
+});
+
+// Login
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    
+    if (!user) {
+      return res.status(401).json({ error: 'Ungültige Anmeldedaten' });
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ error: 'Ungültige Anmeldedaten' });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    res.json({ token, user: { id: user._id, name: user.name, email: user.email, theme: user.theme } });
+  } catch (error) {
+    res.status(500).json({ error: 'Server Fehler' });
+  }
+});
+
+// Middleware für geschützte Routen
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: 'Nicht autorisiert' });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ error: 'Token ungültig' });
+    }
+    req.user = user;
+    next();
+  });
+};
+
+// Profil bearbeiten
+app.put('/api/profile', authenticateToken, async (req, res) => {
+  try {
+    const { name, theme } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user.userId,
+      { name, theme },
+      { new: true }
+    );
+    res.json({ user: { id: user._id, name: user.name, email: user.email, theme: user.theme } });
+  } catch (error) {
+    res.status(500).json({ error: 'Server Fehler' });
+  }
+});
+
+// Passwort ändern
+app.put('/api/change-password', authenticateToken, async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const user = await User.findById(req.user.userId);
+    
+    const validPassword = await bcrypt.compare(oldPassword, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ error: 'Altes Passwort falsch' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+    
+    res.json({ message: 'Passwort erfolgreich geändert' });
+  } catch (error) {
+    res.status(500).json({ error: 'Server Fehler' });
+  }
+});
+
+// Budget und Ausgaben
+app.post('/api/budget', authenticateToken, async (req, res) => {
+  try {
+    const { monthlyBudget } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user.userId,
+      { monthlyBudget },
+      { new: true }
+    );
+    res.json({ monthlyBudget: user.monthlyBudget });
+  } catch (error) {
+    res.status(500).json({ error: 'Server Fehler' });
+  }
+});
+
+app.post('/api/expenses', authenticateToken, async (req, res) => {
+  try {
+    const { category, amount } = req.body;
+    const user = await User.findById(req.user.userId);
+    
+    user.expenses.push({
+      category,
+      amount,
+      date: new Date()
+    });
+    
+    await user.save();
+    res.json({ expenses: user.expenses });
+  } catch (error) {
+    res.status(500).json({ error: 'Server Fehler' });
+  }
+});
 
 // GitHub OAuth Strategy
 passport.use(new GitHubStrategy({
@@ -51,4 +227,5 @@ app.get('/api/me', (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log('Server läuft auf Port 3000'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server läuft auf Port ${PORT}`));
