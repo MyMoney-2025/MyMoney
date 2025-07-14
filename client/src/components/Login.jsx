@@ -7,19 +7,32 @@ export default function Login() {
   // ...existing code...
   const handleGithubLogin = () => {
     // Weiterleitung zum Backend für GitHub OAuth
-    window.location.href = "/api/auth/github";
+    window.location.href = "http://localhost:3000/api/auth/github";
   };
   // ...existing code...
 
   // Optional: Wenn du nach erfolgreichem Login vom Backend auf /dashboard weiterleitest,
   // kannst du hier einen Effekt einbauen, um den Usernamen aus dem Token zu holen.
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     const response = await fetch("/api/me");
+  //     if (response.ok) {
+  //       const userData = await response.json();
+  //       console.log("User Data:", userData);
+  //       // Hier kannst du den Usernamen im Zustand speichern oder in der UI anzeigen
+  //     } else {
+  //       console.error("Nicht eingeloggt");
+  //     } //   };
+  //   fetchUserData();
+  // }, []);
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh]">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md flex flex-col items-center">
-        <h2 className="text-2xl font-bold text-green-700 mb-6">
+        {/* <h2 className="text-2xl font-bold text-green-700 mb-6">
           Login mit Google
-        </h2>
+        </h2> */}
         <button
           onClick={handleGithubLogin}
           className="flex items-center gap-2 text-gray-700 hover:text-green-600 transition-colors border border-green-600 rounded px-4 py-2 hover:bg-green-50"

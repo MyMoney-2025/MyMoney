@@ -5,7 +5,7 @@ import React from 'react';
 function Header() {
   // Handler für GitHub Login
   const handleGithubLogin = () => {
-    window.location.href = '/api/auth/github'; // GitHub OAuth-Route im Backend
+    window.location.href = 'http://localhost:3000/api/auth/github'; // GitHub OAuth-Route im Backend
   };
 
   return (

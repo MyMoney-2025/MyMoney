@@ -34,7 +34,7 @@ app.get('/api/auth/github', passport.authenticate('github', { scope: ['user:emai
 app.get('/api/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
-    res.redirect('/dashboard');
+    res.redirect('http://localhost:5173/dashboard'); // Weiterleitung nach erfolgreichem Login
   }
 );
 
