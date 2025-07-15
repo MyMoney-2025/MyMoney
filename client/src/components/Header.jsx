@@ -1,44 +1,105 @@
-import React from 'react';
-
-
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
-  // Handler für GitHub Login
-  const handleGithubLogin = () => {
-    window.location.href = 'http://localhost:3000/api/auth/github'; // GitHub OAuth-Route im Backend
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+    navigate('/login');
   };
 
   return (
     <header className="bg-white shadow-md py-4 px-6 flex justify-between items-center">
       {/* Links: Logo / Titel */}
-      <div className="text-2xl font-bold text-green-600">MyMoney</div>
+      <Link to="/" className="text-2xl font-bold text-green-600">MyMoney</Link>
 
       {/* Mitte: Navigation */}
       <nav className="space-x-6">
-        <a href="#finanztipps" className="text-gray-700 hover:text-green-600 transition-colors">Finanztipps</a>
-        <a href="#krypto" className="text-gray-700 hover:text-green-600 transition-colors">Die besten Krypto Apps</a>
+        {user ? (
+          <>
+            <Link to="/dashboard" className="text-gray-700 hover:text-green-600 transition-colors">Dashboard</Link>
+            <Link to="/finanztipps" className="text-gray-700 hover:text-green-600 transition-colors">Finanztipps</Link>
+            <Link to="/spartipps" className="text-gray-700 hover:text-green-600 transition-colors">Spartipps</Link>
+          </>
+        ) : (
+          <>
+            <Link to="/finanztipps" className="text-gray-700 hover:text-green-600 transition-colors">Finanztipps</Link>
+            <Link to="/about" className="text-gray-700 hover:text-green-600 transition-colors">Über uns</Link>
+          </>
+        )}
       </nav>
 
       {/* Rechts: Login/Profile */}
-      <div className="flex items-center space-x-4">
-        <button
-          onClick={handleGithubLogin}
-          className="flex items-center gap-2 text-gray-700 hover:text-green-600 transition-colors border border-green-600 rounded px-3 py-1 ml-2 hover:bg-green-50"
-        >
-          <img
-            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-            alt="GitHub"
-            className="w-5 h-5"
-          />
-          Login mit GitHub
-        </button>
-        <button className="relative">
-          <img
-            src="/user-avatar.png"
-            alt="Profil"
-            className="w-8 h-8 rounded-full border border-gray-300"
-          />
-        </button>
+      <div className="flex items-center space-x-4 relative">
+        {user ? (
+          <>
+            <button
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="flex items-center space-x-2 relative"
+            >
+              <img
+                src={user.avatar_url || "/user-avatar.png"}
+                alt="Profil"
+                className="w-8 h-8 rounded-full border border-gray-300"
+              />
+              <span className="text-gray-700">{user.name}</span>
+            </button>
+
+            {/* Profil Dropdown Menu */}
+            {showProfileMenu && (
+              <div className="absolute right-0 top-12 bg-white rounded-md shadow-lg py-2 w-48 z-50">
+                <Link
+                  to="/profile"
+                  className="block px-4 py-2 text-gray-700 hover:bg-green-50"
+                  onClick={() => setShowProfileMenu(false)}
+                >
+                  Profil Einstellungen
+                </Link>
+                <Link
+                  to="/dashboard"
+                  className="block px-4 py-2 text-gray-700 hover:bg-green-50"
+                  onClick={() => setShowProfileMenu(false)}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="space-x-4">
+            <Link
+              to="/login"
+              className="text-gray-700 hover:text-green-600 transition-colors"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="text-gray-700 hover:text-green-600 transition-colors border border-green-600 rounded px-3 py-1 hover:bg-green-50"
+            >
+              Registrieren
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );
