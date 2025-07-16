@@ -96,7 +96,7 @@ export default function Login() {
             </button>
           </div>
         </form>
-        <div className="flex items-center justify-center gap-2">
+        {/* <div className="flex items-center justify-center gap-2">
           <span className="h-px bg-gray-300 w-full"></span>
           <span className="text-gray-500 text-sm">oder</span>
           <span className="h-px bg-gray-300 w-full"></span>
@@ -113,7 +113,7 @@ export default function Login() {
             />
             Login mit GitHub
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -190,29 +190,29 @@ app.post('/api/expenses', authenticateToken, async (req, res) => {
   }
 });
 
-// GitHub OAuth Strategy
-passport.use(new GitHubStrategy({
-  clientID: process.env.GITHUB_CLIENT_ID,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: 'http://localhost:3000/api/auth/github/callback'
-}, (accessToken, refreshToken, profile, done) => {
-  // Hier kannst du den User in der DB speichern oder suchen
-  return done(null, profile);
-}));
+// // GitHub OAuth Strategy
+// passport.use(new GitHubStrategy({
+//   clientID: process.env.GITHUB_CLIENT_ID,
+//   clientSecret: process.env.GITHUB_CLIENT_SECRET,
+//   callbackURL: 'http://localhost:3000/api/auth/github/callback'
+// }, (accessToken, refreshToken, profile, done) => {
+//   // Hier kannst du den User in der DB speichern oder suchen
+//   return done(null, profile);
+// }));
 
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((obj, done) => done(null, obj));
+// passport.serializeUser((user, done) => done(null, user));
+// passport.deserializeUser((obj, done) => done(null, obj));
 
-// Login-Route
-app.get('/api/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
+// // Login-Route
+// app.get('/api/auth/github', passport.authenticate('github', { scope: ['user:email'] }));
 
-// Callback-Route
-app.get('/api/auth/github/callback',
-  passport.authenticate('github', { failureRedirect: '/login' }),
-  (req, res) => {
-    res.redirect('http://localhost:5173/dashboard'); // Weiterleitung nach erfolgreichem Login
-  }
-);
+// // Callback-Route
+// app.get('/api/auth/github/callback',
+//   passport.authenticate('github', { failureRedirect: '/login' }),
+//   (req, res) => {
+//     res.redirect('http://localhost:5173/dashboard'); // Weiterleitung nach erfolgreichem Login
+//   }
+// );
 
 // API für Userdaten
 app.get('/api/me', (req, res) => {
