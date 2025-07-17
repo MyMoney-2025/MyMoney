@@ -24,9 +24,11 @@ export default function Dashboard() {
     // Lade Userdaten
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/me', {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3001/api/me', {
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           }
         });
         
@@ -34,9 +36,13 @@ export default function Dashboard() {
           const data = await response.json();
           setUser(data);
           fetchBudgetData();
+        } else if (response.status === 401) {
+          localStorage.removeItem('token');
+          navigate('/login');
         }
       } catch (error) {
         console.error('Fehler beim Laden der Userdaten:', error);
+        navigate('/login');
       }
     };
 
@@ -46,7 +52,7 @@ export default function Dashboard() {
   const fetchBudgetData = async () => {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:3000/api/budget', {
+      const response = await fetch('http://localhost:3001/api/budget', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -67,7 +73,7 @@ export default function Dashboard() {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:3000/api/budget', {
+      const response = await fetch('http://localhost:3001/api/budget', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +95,7 @@ export default function Dashboard() {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:3000/api/expenses', {
+      const response = await fetch('http://localhost:3001/api/expenses', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -13,7 +13,10 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 app.use(session({
   secret: process.env.SESSION_SECRET || 'dein_geheimes_secret',
   resave: false,
@@ -23,7 +26,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // MongoDB Verbindung
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/finanzapp');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/finanzapp')
+  .then(() => console.log('MongoDB verbunden'))
+  .catch(err => {
+    console.error('MongoDB Verbindungsfehler:', err);
+    process.exit(1);
+  });
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -103,22 +111,31 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Middleware für geschützte Routen
+// Middleware für geschützte Routen verbessern
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({ error: 'Nicht autorisiert' });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ error: 'Token ungültig' });
+  try {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Kein Auth-Header' });
     }
-    req.user = user;
-    next();
-  });
+
+    const token = authHeader.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ error: 'Kein Token' });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        console.error('JWT Verify Error:', err);
+        return res.status(401).json({ error: 'Token ungültig' });
+      }
+      req.user = decoded;
+      next();
+    });
+  } catch (error) {
+    console.error('Auth Error:', error);
+    res.status(500).json({ error: 'Auth Error' });
+  }
 };
 
 // Profil bearbeiten
@@ -214,16 +231,26 @@ app.post('/api/expenses', authenticateToken, async (req, res) => {
 //   }
 // );
 
-// API für Userdaten
-app.get('/api/me', (req, res) => {
-  if (req.isAuthenticated()) {
+// ME Route verbessern
+app.get('/api/me', authenticateToken, async (req, res) => {
+  try {
+    console.log('User ID from token:', req.user.userId); // Debug log
+    const user = await User.findById(req.user.userId);
+    
+    if (!user) {
+      return res.status(404).json({ error: 'Benutzer nicht gefunden' });
+    }
+
     res.json({
-      username: req.user.username,
-      githubId: req.user.id,
-      avatar_url: req.user.photos?.[0]?.value || ''
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      theme: user.theme,
+      monthlyBudget: user.monthlyBudget
     });
-  } else {
-    res.status(401).json({ error: 'Nicht eingeloggt' });
+  } catch (error) {
+    console.error('ME Route Error:', error);
+    res.status(500).json({ error: 'Server Fehler' });
   }
 });
 

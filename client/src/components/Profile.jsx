@@ -29,7 +29,7 @@ export default function Profile() {
 
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/me', {
+        const response = await fetch('http://localhost:3001/api/me', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -58,7 +58,7 @@ export default function Profile() {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:3000/api/profile', {
+      const response = await fetch('http://localhost:3001/api/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export default function Profile() {
 
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:3000/api/change-password', {
+      const response = await fetch('http://localhost:3001/api/change-password', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

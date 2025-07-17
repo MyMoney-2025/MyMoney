@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 export default function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ export default function Login() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
+      const response = await fetch("http://localhost:3001/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,13 +30,18 @@ export default function Login() {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        navigate("/dashboard");
+        const data = await response.json();
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          // Kurze Verzögerung für localStorage
+          setTimeout(() => navigate('/dashboard'), 100);
+        } else {
+          setError('Kein Token vom Server erhalten');
+        }
       } else {
+        const data = await response.json();
         setError(data.error || "Login fehlgeschlagen");
       }
     } catch (err) {
@@ -43,10 +49,10 @@ export default function Login() {
     }
   };
 
-  const handleGithubLogin = () => {
-    // Weiterleitung zum Backend für GitHub OAuth
-    window.location.href = "http://localhost:3000/api/auth/github";
-  };
+  // const handleGithubLogin = () => {
+  //   // Weiterleitung zum Backend für GitHub OAuth
+  //   window.location.href = "http://localhost:3000/api/auth/github";
+  // };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
