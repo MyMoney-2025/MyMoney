@@ -5,6 +5,7 @@ import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
   const isAuthenticated = !!localStorage.getItem('token');
@@ -44,7 +45,9 @@ function App() {
 
           {/* Geschützte Routen */}
           <Route path="/dashboard" element={
-            isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
+            <ErrorBoundary>
+              {isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
+            </ErrorBoundary>
           } />
           <Route path="/profile" element={
             isAuthenticated ? <Profile /> : <Navigate to="/login" />

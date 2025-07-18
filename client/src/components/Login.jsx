@@ -34,9 +34,8 @@ export default function Login() {
         const data = await response.json();
         if (data.token) {
           localStorage.setItem('token', data.token);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          // Kurze Verzögerung für localStorage
-          setTimeout(() => navigate('/dashboard'), 100);
+          navigate('/dashboard');
+          window.location.reload(); // Header neu laden
         } else {
           setError('Kein Token vom Server erhalten');
         }

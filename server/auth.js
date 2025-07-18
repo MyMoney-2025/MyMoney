@@ -254,5 +254,22 @@ app.get('/api/me', authenticateToken, async (req, res) => {
   }
 });
 
+// GET Budget Route hinzufügen
+app.get('/api/budget', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'Benutzer nicht gefunden' });
+    }
+    res.json({
+      monthlyBudget: user.monthlyBudget,
+      expenses: user.expenses || []
+    });
+  } catch (error) {
+    console.error('Budget Route Error:', error);
+    res.status(500).json({ error: 'Server Fehler' });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server läuft auf Port ${PORT}`));

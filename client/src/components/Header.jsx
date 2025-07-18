@@ -5,12 +5,33 @@ function Header() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const isAuthenticated = !!localStorage.getItem('token');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (token) {
+      fetch('http://localhost:3001/api/me', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Unauthorized');
+      })
+      .then(userData => {
+        setUser(userData);
+      })
+      .catch(error => {
+        console.error('Error fetching user:', error);
+        localStorage.removeItem('token');
+        setUser(null);
+      });
+    } else {
+      setUser(null);
     }
   }, []);
 
@@ -24,7 +45,7 @@ function Header() {
   return (
     <header className="bg-white shadow-md py-4 px-6 flex justify-between items-center">
       {/* Links: Logo / Titel */}
-      <Link to="/" className="text-2xl font-bold text-green-600">MyMoney</Link>
+      <Link to={user ? "/dashboard" : "/"} className="text-2xl font-bold text-green-600">MyMoney</Link>
 
       {/* Mitte: Navigation */}
       <nav className="space-x-6">
