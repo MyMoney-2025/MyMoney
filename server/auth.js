@@ -7,7 +7,7 @@ import { body, validationResult } from 'express-validator';
 import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
-import { Strategy as GitHubStrategy } from 'passport-github2';
+
 
 const app = express();
 
