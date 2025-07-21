@@ -271,5 +271,53 @@ app.get('/api/budget', authenticateToken, async (req, res) => {
   }
 });
 
+//PUT Route für Ausgaben hinzufügen
+app.put('/api/expenses/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { category, amount } = req.body;
+
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'Benutzer nicht gefunden' });
+    }
+
+    const expenseIndex = user.expenses.findIndex(exp => exp._id.toString() === id);
+    if (expenseIndex === -1) {
+      return res.status(404).json({ error: 'Ausgabe nicht gefunden' });
+    }
+
+    user.expenses[expenseIndex].category = category;
+    user.expenses[expenseIndex].amount = amount;
+    await user.save();
+
+    res.json({ expenses: user.expenses });
+  } catch (error) {
+    console.error('Update Expense Error:', error);
+    res.status(500).json({ error: 'Server Fehler' });
+  }
+});
+
+// DELETE Route für Ausgaben hinzufügen
+app.delete('/api/expenses/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'Benutzer nicht gefunden' });
+    }
+
+    user.expenses = user.expenses.filter(exp => exp._id.toString() !== id);
+    await user.save();
+
+    res.json({ expenses: user.expenses });
+  } catch (error) {
+    console.error('Delete Expense Error:', error);
+    res.status(500).json({ error: 'Server Fehler' });
+  }
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server läuft auf Port ${PORT}`));
