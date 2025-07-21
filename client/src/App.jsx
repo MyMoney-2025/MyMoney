@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
 import ErrorBoundary from './components/ErrorBoundary';
+import PasswordReset from "./components/PasswordReset";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem('token');
