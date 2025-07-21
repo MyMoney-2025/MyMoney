@@ -42,6 +42,7 @@ function App() {
           {/* Öffentliche Routen */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/reset-password" element={<PasswordReset />} />
 
           {/* Geschützte Routen */}
           <Route path="/dashboard" element={

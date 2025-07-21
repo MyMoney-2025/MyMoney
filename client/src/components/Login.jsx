@@ -92,6 +92,14 @@ export default function Login() {
             </div>
           </div>
 
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <Link to="/reset-password" className="font-medium text-green-600 hover:text-green-500">
+                Passwort vergessen?
+              </Link>
+            </div>
+          </div>
+
           <div>
             <button
               type="submit"
