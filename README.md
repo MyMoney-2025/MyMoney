@@ -66,6 +66,25 @@ Das Ziel ist es, die technische Basis zu schaffen, damit ein Nutzer sich registr
 | MYM-9      | Login & Logout                                                          |
 | MYM-11     | Profilverwaltung                                                        |
 
+## 🎯 Sprint 3 – Planung und Umsetzung
+
+🧠 **Sprint Goal:**  
+> *„Editieren und Löschen der Ausgaben im Dashboard. Passwort Zurücksetzen Funktion implementieren“*
+
+Die einzelnen Ausgabenelemente im Dashboard sollen sich jederzeit löschen und verändern lassen. Im Login Screen eine Passwort Zurücksetzen Option einbauen.
+
+📅 **Sprintzeitraum:** 21. Juli – 23. Juli  
+📍 **Jira Sprint Board:**  
+🔗 [Zum Sprint-Backlog in Jira](https://allerchecker.atlassian.net/jira/software/projects/MYM/boards/2/backlog)
+
+### 📌 Sprint Backlog
+
+**Epic: Technische Grundlagen / Setup**
+
+| Vorgang-ID | Aufgabe                                                                 |
+|------------|-------------------------------------------------------------------------|
+| MYM-18     | Passwort vergessen Feature                                              |
+| MYM-19     | Dashboard - Editieren und Löschen der Ausgaben Elemente                 |                        
 
 
 
