@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -33,11 +32,11 @@ export default function Login() {
       if (response.ok) {
         const data = await response.json();
         if (data.token) {
-          localStorage.setItem('token', data.token);
-          navigate('/dashboard');
+          localStorage.setItem("token", data.token);
+          navigate("/dashboard");
           window.location.reload(); // Header neu laden
         } else {
-          setError('Kein Token vom Server erhalten');
+          setError("Kein Token vom Server erhalten");
         }
       } else {
         const data = await response.json();
@@ -94,7 +93,10 @@ export default function Login() {
 
           <div className="flex items-center justify-between">
             <div className="text-sm">
-              <Link to="/reset-password" className="font-medium text-green-600 hover:text-green-500">
+              <Link
+                to="/reset-password"
+                className="font-medium text-green-600 hover:text-green-500"
+              >
                 Passwort vergessen?
               </Link>
             </div>
