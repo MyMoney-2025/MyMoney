@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CategoryManager from './CategoryManager';
+// CategoryManager Import entfernen
 import ExpenseAnalytics from './ExpenseAnalytics';
 import SavingsGoals from './SavingsGoals';
 import RecurringExpenses from './RecurringExpenses';
@@ -296,9 +296,8 @@ export default function Dashboard() {
         <ExpenseAnalytics expenses={budget.expenses} />
       </div>
 
-      {/* Kategorien und Sparziele */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <CategoryManager />
+      {/* Sparziele */}
+      <div className="mb-8">
         <SavingsGoals />
       </div>
 
