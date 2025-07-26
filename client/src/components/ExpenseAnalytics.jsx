@@ -1,122 +1,53 @@
 import React from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-} from 'chart.js';
-import { Line, Doughnut } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
-// Chart.js Registrierung
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function ExpenseAnalytics({ expenses }) {
-  // Ausgaben nach Kategorie gruppieren
-  const expensesByCategory = expenses.reduce((acc, expense) => {
-    acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
+  // Gruppiere Ausgaben nach Kategorie und summiere die Beträge
+  const categoryData = expenses.reduce((acc, expense) => {
+    if (!acc[expense.category]) {
+      acc[expense.category] = {
+        amount: 0,
+        color: expense.color || '#34D399'
+      };
+    }
+    acc[expense.category].amount += expense.amount;
     return acc;
   }, {});
 
-  // Ausgaben nach Monat gruppieren
-  const expensesByMonth = expenses.reduce((acc, expense) => {
-    const date = new Date(expense.date);
-    const monthYear = date.toLocaleString('de-DE', { month: 'long', year: 'numeric' });
-    acc[monthYear] = (acc[monthYear] || 0) + expense.amount;
-    return acc;
-  }, {});
-
-  // Daten für den Donut-Chart
-  const categoryData = {
-    labels: Object.keys(expensesByCategory),
-    datasets: [
-      {
-        data: Object.values(expensesByCategory),
-        backgroundColor: [
-          '#34D399',
-          '#60A5FA',
-          '#F472B6',
-          '#A78BFA',
-          '#FBBF24',
-          '#EC4899',
-          '#8B5CF6',
-          '#F59E0B',
-        ],
-        borderWidth: 1,
-      },
-    ],
+  const data = {
+    labels: Object.keys(categoryData),
+    datasets: [{
+      data: Object.values(categoryData).map(cat => cat.amount),
+      backgroundColor: Object.values(categoryData).map(cat => cat.color),
+      borderWidth: 1
+    }]
   };
 
-  // Daten für den Linien-Chart
-  const monthlyData = {
-    labels: Object.keys(expensesByMonth),
-    datasets: [
-      {
-        label: 'Ausgaben pro Monat',
-        data: Object.values(expensesByMonth),
-        borderColor: '#10B981',
-        tension: 0.4,
-        fill: true,
-        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-      },
-    ],
-  };
-
-  // Chart Optionen
-  const lineOptions = {
+  const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: 'bottom'
       },
-      title: {
-        display: true,
-        text: 'Ausgaben Trend',
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: {
-          callback: (value) => `${value}€`,
-        },
-      },
-    },
-  };
-
-  const doughnutOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Ausgaben nach Kategorie',
-      },
-    },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            const value = context.raw;
+            return `${context.label}: ${value.toFixed(2)} €`;
+          }
+        }
+      }
+    }
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="bg-white p-6 rounded-lg shadow">
-        <Line data={monthlyData} options={lineOptions} />
-      </div>
-      <div className="bg-white p-6 rounded-lg shadow">
-        <Doughnut data={categoryData} options={doughnutOptions} />
+    <div className="bg-white rounded-lg shadow p-6">
+      <h2 className="text-lg font-medium text-gray-900 mb-4">Ausgaben nach Kategorie</h2>
+      <div className="h-64">
+        <Pie data={data} options={options} />
       </div>
     </div>
   );

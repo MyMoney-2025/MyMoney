@@ -113,16 +113,20 @@ export default function Dashboard() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(newExpense)
+        body: JSON.stringify({
+          category: newExpense.category,
+          amount: parseFloat(newExpense.amount),
+          color: newExpense.color // Wichtig: Farbe mitschicken
+        })
       });
       
       if (response.ok) {
         const data = await response.json();
         setBudget(prev => ({ ...prev, expenses: data.expenses }));
-        setNewExpense({ category: '', amount: '' });
+        setNewExpense({ category: '', amount: '', color: '#34D399' });
       }
     } catch (error) {
-      console.error('Fehler beim Speichern der Ausgabe:', error);
+      console.error('Fehler beim Hinzufügen der Ausgabe:', error);
     }
   };
 
@@ -136,16 +140,18 @@ export default function Dashboard() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(newExpense)
+        body: JSON.stringify({
+          category: newExpense.category,
+          amount: parseFloat(newExpense.amount),
+          color: newExpense.color // Wichtig: Farbe mitschicken
+        })
       });
       
       if (response.ok) {
         const data = await response.json();
-        setBudget(prev => ({ ...prev, expenses: prev.expenses.map(exp => 
-          exp._id === expenseId ? { ...exp, ...newExpense } : exp
-        )}));
+        setBudget(prev => ({ ...prev, expenses: data.expenses }));
         setEditingExpense(null);
-        setNewExpense({ category: '', amount: '' });
+        setNewExpense({ category: '', amount: '', color: '#34D399' });
       }
     } catch (error) {
       console.error('Fehler beim Aktualisieren der Ausgabe:', error);
