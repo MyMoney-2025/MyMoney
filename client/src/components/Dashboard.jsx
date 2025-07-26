@@ -14,7 +14,8 @@ export default function Dashboard() {
   });
   const [newExpense, setNewExpense] = useState({
     category: '',
-    amount: ''
+    amount: '',
+    color: '#34D399' // Standard-Grün als Standardfarbe
   });
   const [editingExpense, setEditingExpense] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -257,6 +258,17 @@ export default function Dashboard() {
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Farbe
+              </label>
+              <input
+                type="color"
+                value={newExpense.color}
+                onChange={(e) => setNewExpense(prev => ({ ...prev, color: e.target.value }))}
+                className="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+              />
+            </div>
             <button
               type="submit"
               className="w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
@@ -334,6 +346,12 @@ export default function Dashboard() {
                         className="w-24 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
                         placeholder="Betrag"
                       />
+                      <input
+                        type="color"
+                        value={newExpense.color}
+                        onChange={(e) => setNewExpense(prev => ({ ...prev, color: e.target.value }))}
+                        className="w-14 h-10 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                      />
                     </div>
                     <div className="flex justify-end space-x-2">
                       <button
@@ -357,8 +375,14 @@ export default function Dashboard() {
                 ) : (
                   <div>
                     <div className="flex items-center justify-between">
-                      <div className="text-sm font-medium text-gray-900">
-                        {expense.category}
+                      <div className="flex items-center space-x-2">
+                        <div 
+                          className="w-4 h-4 rounded-full" 
+                          style={{ backgroundColor: expense.color || '#34D399' }}
+                        />
+                        <div className="text-sm font-medium text-gray-900">
+                          {expense.category}
+                        </div>
                       </div>
                       <div className="flex items-center space-x-4">
                         <div className="text-sm text-gray-500">
