@@ -43,7 +43,8 @@ const userSchema = new mongoose.Schema({
   expenses: [{
     category: String,
     amount: Number,
-    date: Date
+    date: Date,
+    color: { type: String, default: '#34D399' } // Neue Zeile für Farbunterstützung
   }]
 });
 
@@ -191,12 +192,13 @@ app.post('/api/budget', authenticateToken, async (req, res) => {
 
 app.post('/api/expenses', authenticateToken, async (req, res) => {
   try {
-    const { category, amount } = req.body;
+    const { category, amount, color } = req.body;
     const user = await User.findById(req.user.userId);
     
     user.expenses.push({
       category,
       amount,
+      color: color || '#34D399', // Standardfarbe falls keine angegeben
       date: new Date()
     });
     
@@ -275,7 +277,7 @@ app.get('/api/budget', authenticateToken, async (req, res) => {
 app.put('/api/expenses/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
-    const { category, amount } = req.body;
+    const { category, amount, color } = req.body;
 
     const user = await User.findById(req.user.userId);
     if (!user) {
@@ -289,6 +291,7 @@ app.put('/api/expenses/:id', authenticateToken, async (req, res) => {
 
     user.expenses[expenseIndex].category = category;
     user.expenses[expenseIndex].amount = amount;
+    user.expenses[expenseIndex].color = color || user.expenses[expenseIndex].color; // Farbe nur aktualisieren wenn angegeben
     await user.save();
 
     res.json({ expenses: user.expenses });
