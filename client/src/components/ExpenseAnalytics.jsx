@@ -46,7 +46,7 @@ export default function ExpenseAnalytics({ expenses }) {
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <h2 className="text-lg font-medium text-gray-900 mb-4">Ausgaben nach Kategorie</h2>
-      <div className="h-64">
+      <div className="h-[400px]"> {/* Höhe von h-64 (16rem = 256px) auf 400px erhöht */}
         <Pie data={data} options={options} />
       </div>
     </div>
