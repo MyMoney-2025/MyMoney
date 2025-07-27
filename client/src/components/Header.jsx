@@ -52,12 +52,11 @@ function Header() {
         {user ? (
           <>
             <Link to="/dashboard" className="text-gray-700 hover:text-green-600 transition-colors">Dashboard</Link>
-            <Link to="/finanztipps" className="text-gray-700 hover:text-green-600 transition-colors">Finanztipps</Link>
-            <Link to="/spartipps" className="text-gray-700 hover:text-green-600 transition-colors">Spartipps</Link>
+            <Link to="/financial-tips" className="text-gray-700 hover:text-green-600 transition-colors">Finanztipps</Link>
           </>
         ) : (
           <>
-            <Link to="/finanztipps" className="text-gray-700 hover:text-green-600 transition-colors">Finanztipps</Link>
+            <Link to="/financial-tips" className="text-gray-700 hover:text-green-600 transition-colors">Finanztipps</Link>
             <Link to="/about" className="text-gray-700 hover:text-green-600 transition-colors">Über uns</Link>
           </>
         )}
@@ -79,7 +78,6 @@ function Header() {
               <span className="text-gray-700">{user.name}</span>
             </button>
 
-            {/* Profil Dropdown Menu */}
             {showProfileMenu && (
               <div className="absolute right-0 top-12 bg-white rounded-md shadow-lg py-2 w-48 z-50">
                 <Link
@@ -88,13 +86,6 @@ function Header() {
                   onClick={() => setShowProfileMenu(false)}
                 >
                   Profil Einstellungen
-                </Link>
-                <Link
-                  to="/dashboard"
-                  className="block px-4 py-2 text-gray-700 hover:bg-green-50"
-                  onClick={() => setShowProfileMenu(false)}
-                >
-                  Dashboard
                 </Link>
                 <button
                   onClick={handleLogout}
