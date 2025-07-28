@@ -9,7 +9,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [budget, setBudget] = useState({
-    monthlyBudget: 0,
+    monthlyBudget: 0,  // Explizit als 0 initialisieren
     expenses: []
   });
   const [newExpense, setNewExpense] = useState({
@@ -56,7 +56,7 @@ export default function Dashboard() {
           if (budgetResponse.ok && isMounted) {
             const budgetData = await budgetResponse.json();
             setBudget({
-              monthlyBudget: budgetData.monthlyBudget || 0,
+              monthlyBudget: parseFloat(budgetData.monthlyBudget) || 0,  // Sicherstellen dass es eine Nummer ist
               expenses: budgetData.expenses || []
             });
           }
@@ -84,22 +84,28 @@ export default function Dashboard() {
   const handleBudgetSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
+    
     try {
       const response = await fetch('http://localhost:3001/api/budget', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ monthlyBudget: budget.monthlyBudget })
+        body: JSON.stringify({ 
+          monthlyBudget: parseFloat(budget.monthlyBudget) || 0 
+        })
       });
-      
+
       if (response.ok) {
         const data = await response.json();
-        setBudget(prev => ({ ...prev, monthlyBudget: data.monthlyBudget }));
+        setBudget(prev => ({ 
+          ...prev, 
+          monthlyBudget: parseFloat(data.monthlyBudget) || 0 
+        }));
       }
     } catch (error) {
-      console.error('Fehler beim Speichern des Budgets:', error);
+      console.error('Fehler beim Aktualisieren des Budgets:', error);
     }
   };
 
@@ -226,8 +232,14 @@ export default function Dashboard() {
               <input
                 type="number"
                 value={budget.monthlyBudget}
-                onChange={(e) => setBudget(prev => ({ ...prev, monthlyBudget: parseFloat(e.target.value) }))}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                onChange={(e) => setBudget(prev => ({ 
+                  ...prev, 
+                  monthlyBudget: e.target.value ? parseFloat(e.target.value) : 0
+                }))}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm text-gray-900"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
               />
             </div>
             <button
@@ -250,7 +262,7 @@ export default function Dashboard() {
                 type="text"
                 value={newExpense.category}
                 onChange={(e) => setNewExpense(prev => ({ ...prev, category: e.target.value }))}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm text-gray-900"
               />
             </div>
             <div>
@@ -261,7 +273,7 @@ export default function Dashboard() {
                 type="number"
                 value={newExpense.amount}
                 onChange={(e) => setNewExpense(prev => ({ ...prev, amount: parseFloat(e.target.value) }))}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm text-gray-900"
               />
             </div>
             <div>
@@ -342,14 +354,14 @@ export default function Dashboard() {
                         type="text"
                         value={newExpense.category}
                         onChange={(e) => setNewExpense(prev => ({ ...prev, category: e.target.value }))}
-                        className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                        className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm text-gray-900"
                         placeholder="Kategorie"
                       />
                       <input
                         type="number"
                         value={newExpense.amount}
                         onChange={(e) => setNewExpense(prev => ({ ...prev, amount: parseFloat(e.target.value) }))}
-                        className="w-24 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+                        className="w-24 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm text-gray-900"
                         placeholder="Betrag"
                       />
                       <input

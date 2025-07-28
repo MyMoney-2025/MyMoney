@@ -8,6 +8,7 @@ import Profile from "./components/Profile";
 import ErrorBoundary from './components/ErrorBoundary';
 import PasswordReset from "./components/PasswordReset";
 import FinancialTips from "./components/FinancialTips";
+import About from './components/About';
 
 function App() {
   const isAuthenticated = !!localStorage.getItem('token');
@@ -60,6 +61,7 @@ function App() {
               {isAuthenticated ? <FinancialTips /> : <Navigate to="/login" />}
             </ErrorBoundary>
           } />
+          <Route path="/about" element={<About />} />
 
           {/* Fallback für unbekannte Routen */}
           <Route path="*" element={<Navigate to="/" />} />
