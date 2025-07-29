@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// CategoryManager Import entfernen
 import ExpenseAnalytics from './ExpenseAnalytics';
 import SavingsGoals from './SavingsGoals';
-import RecurringExpenses from './RecurringExpenses';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -326,17 +324,12 @@ export default function Dashboard() {
         <ExpenseAnalytics expenses={budget.expenses} />
       </div>
 
-      {/* Sparziele */}
       <div className="mb-8">
         <SavingsGoals />
       </div>
 
-      {/* Wiederkehrende Ausgaben */}
-      <div className="mb-8">
-        <RecurringExpenses />
-      </div>
+      {/* RecurringExpenses Komponente entfernt */}
 
-      {/* Ausgaben Liste */}
       <div className="bg-white rounded-lg shadow">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-lg font-medium leading-6 text-gray-900">
